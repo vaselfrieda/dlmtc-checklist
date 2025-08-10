@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Session List</title>
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-512.png') }}">
+<meta name="theme-color" content="#000000">
+
+<!-- Service Worker Registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}")
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.log('SW registration failed:', err));
+    });
+  }
+</script>
+</head>
+<body>
+    <h1>All Sessions</h1>
+    <a href="{{ url_for('new_session') }}">Create New Session</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Project</th>
+            <th>Actions</th>
+        </tr>
+        {% for s in sessions %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.date }}</td>
+            <td>{{ s.project }}</td>
+            <td>
+                <a href="{{ url_for('edit_session', session_id=s.id) }}">Edit</a> |
+                <a href="{{ url_for('add_items', session_id=s.id) }}">Items</a> |
+                <a href="{{ url_for('duplicate_session', session_id=s.id) }}">Duplicate</a> |
+                <a href="{{ url_for('delete_session', session_id=s.id) }}">Delete</a> |
+                <a href="{{ url_for('export_csv', session_id=s.id) }}">Export</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

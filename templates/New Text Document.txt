@@ -1,0 +1,21 @@
+!-- templatesedit_session.html --
+!DOCTYPE html
+html
+head
+    titleEdit Sessiontitle
+head
+body
+    h1Edit Sessionh1
+    form method=POST
+        labelDatelabelinput type=date name=date value={{ session.date }}br
+        labelProjectlabelinput type=text name=project value={{ session.project }}br
+        labelFrequencylabelinput type=text name=frequency value={{ session.frequency }}br
+        labelMonthlabelinput type=text name=month value={{ session.month }}br
+        labelLocationlabelinput type=text name=location value={{ session.location }}br
+        labelAttended Bylabelinput type=text name=attended_by value={{ session.attended_by }}br
+        labelVerified Bylabelinput type=text name=verified_by value={{ session.verified_by }}br
+        input type=submit value=Update Session
+    form
+    a href={{ url_for('session_list') }}Back to session lista
+body
+html

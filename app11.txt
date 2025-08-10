@@ -1,0 +1,42 @@
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+
+app = Flask(__name__)
+
+# Home route – show session form
+@app.route('/')
+def session_form():
+    return render_template('session_form.html')
+
+# POST route to receive session form data
+@app.route('/add_session', methods=['POST'])
+def add_session():
+    session_name = request.form.get('session_name')
+    date = request.form.get('date')
+    print(f"Session: {session_name}, Date: {date}")  # For debugging
+    return redirect(url_for('items_form'))
+
+# Page to add checklist items
+@app.route('/items')
+def items_form():
+    return render_template('items_form.html')
+
+# POST route to receive item data
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    task = request.form.get('task')
+    status = request.form.get('status')
+    print(f"Task: {task}, Status: {status}")  # For debugging
+    # Redirect to items form after adding the item
+    return redirect(url_for('items_form'))
+
+# Serve manifest and service worker for PWA
+@app.route('/manifest.json')
+def manifest():
+    return app.send_static_file('manifest.json')
+
+@app.route('/sw.js')
+def service_worker():
+    return app.send_static_file('sw.js')
+
+if __name__ == '__main__':
+    app.run(debug=True)

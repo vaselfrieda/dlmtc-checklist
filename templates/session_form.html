@@ -1,0 +1,37 @@
+<!-- templates/session_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Session</title>
+<!-- PWA Manifest -->
+<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+<link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-512.png') }}">
+<meta name="theme-color" content="#000000">
+
+<!-- Service Worker Registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}")
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.log('SW registration failed:', err));
+    });
+  }
+</script>
+</head>
+<body>
+    <h1>Create New Session</h1>
+    <form method="POST">
+        <label>Date:</label><input type="date" name="date"><br>
+        <label>Project:</label><input type="text" name="project"><br>
+        <label>Frequency:</label><input type="text" name="frequency"><br>
+        <label>Month:</label><input type="text" name="month"><br>
+        <label>Location:</label><input type="text" name="location"><br>
+        <label>Attended By:</label><input type="text" name="attended_by"><br>
+        <label>Verified By:</label><input type="text" name="verified_by"><br>
+        <input type="submit" value="Create Session">
+    </form>
+    <a href="{{ url_for('session_list') }}">Back to session list</a>
+</body>
+</html>

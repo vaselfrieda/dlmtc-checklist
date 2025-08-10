@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Checklist Item</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-512.png') }}">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Basic Styling -->
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #0066cc;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}")
+                    .then(reg => console.log('SW registered:', reg.scope))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Edit Checklist Item</h1>
+    <form method="POST">
+        <label for="item_no">Item No:</label>
+        <input type="text" id="item_no" name="item_no" value="{{ item.item_no }}">
+
+        <label for="panel_ref">Panel Ref:</label>
+        <input type="text" id="panel_ref" name="panel_ref" value="{{ item.panel_ref }}">
+
+        <label for="asset_code">Asset Code:</label>
+        <input type="text" id="asset_code" name="asset_code" value="{{ item.asset_code }}">
+
+        <label for="item_description">Item Description:</label>
+        <input type="text" id="item_description" name="item_description" value="{{ item.item_description }}">
+
+        <label for="values_observation">Values / Observation:</label>
+        <input type="text" id="values_observation" name="values_observation" value="{{ item.values_observation }}">
+
+        <label for="any_abnormality">Any Abnormality:</label>
+        <input type="text" id="any_abnormality" name="any_abnormality" value="{{ item.any_abnormality }}">
+
+        <label for="remarks">Remarks:</label>
+        <input type="text" id="remarks" name="remarks" value="{{ item.remarks }}">
+
+        <input type="submit" value="Update Item">
+    </form>
+
+    <a href="{{ url_for('add_items', session_id=item.session_id) }}">← Back to Session Items</a>
+</body>
+</html>
